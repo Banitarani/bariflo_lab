@@ -1,109 +1,176 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useMemo, useEffect } from 'react';
-import { CssBaseline, ThemeProvider, createTheme, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Collapse, Divider, Card, CardContent, Fab, Box, Hidden, InputBase, Avatar, Menu, MenuItem, ListItemIcon, BottomNavigation, BottomNavigationAction, Link } from '@mui/material';
-import { LightMode, DarkMode, Menu as MenuIcon, ExpandLess, ExpandMore, Search as SearchIcon, AccountCircle, Settings as SettingsIcon, Notifications as NotificationsIcon, Logout, Home, Code as CodeIcon, Public as PublicIcon, Business as BusinessIcon, AlternateEmail as AlternateEmailIcon, AutoAwesomeTwoTone, Circle, AddCircleOutlineOutlined, DashboardOutlined, ShoppingCartOutlined, StorefrontOutlined, GroupOutlined, InventoryOutlined, CategoryOutlined, Category, ShoppingBasketOutlined, ShoppingBasketRounded, ReceiptOutlined, WarehouseOutlined, HomeOutlined } from '@mui/icons-material';
-import { ThemeProvider as Emotion10ThemeProvider } from '@emotion/react';
-import './style.scss';
-import { orangeDarkTheme, orangeLightTheme, basicTheme,darkTheme,lightTheme,customTheme,blueLightTheme,blueDarkTheme,greenLightTheme,greenDarkTheme,redLightTheme,redDarkTheme } from './themes';
-// eslint-disable-next-line no-unused-vars
-import logo from '../assets/logo.svg';
-import { GlobalStyles } from './GlobalStyle';
-import TextField from '@mui/material/TextField';
-import { Outlet,useLocation,useNavigate } from 'react-router-dom'; // Import Outlet
-import { expandItem,activateItem,triggerPageChange } from '../redux/reducer/sidebardata';
-import {useDispatch} from 'react-redux';
+import React, { useState, useMemo, useEffect } from "react";
+import {
+  CssBaseline,
+  ThemeProvider,
+  createTheme,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+  Divider,
+  Card,
+  CardContent,
+  Fab,
+  Box,
+  Hidden,
+  InputBase,
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  BottomNavigation,
+  BottomNavigationAction,
+  submenus,
+} from "@mui/material";
+import {
+  LightMode,
+  DarkMode,
+  Menu as MenuIcon,
+  ExpandLess,
+  ExpandMore,
+  Search as SearchIcon,
+  AccountCircle,
+  Settings as SettingsIcon,
+  Notifications as NotificationsIcon,
+  Logout,
+  Home,
+  Code as CodeIcon,
+  Public as PublicIcon,
+  Business as BusinessIcon,
+  AlternateEmail as AlternateEmailIcon,
+  AutoAwesomeTwoTone,
+  Circle,
+  AddCircleOutlineOutlined,
+  DashboardOutlined,
+  ShoppingCartOutlined,
+  StorefrontOutlined,
+  GroupOutlined,
+  InventoryOutlined,
+  CategoryOutlined,
+  Category,
+  ShoppingBasketOutlined,
+  ShoppingBasketRounded,
+  ReceiptOutlined,
+  WarehouseOutlined,
+} from "@mui/icons-material";
+import { ThemeProvider as Emotion10ThemeProvider } from "@emotion/react";
+import "./style.scss";
+import {
+  orangeDarkTheme,
+  orangeLightTheme,
+  basicTheme,
+  darkTheme,
+  lightTheme,
+  customTheme,
+  blueLightTheme,
+  blueDarkTheme,
+  greenLightTheme,
+  greenDarkTheme,
+  redLightTheme,
+  redDarkTheme,
+} from "./themes";
+import logo from "../assets/logo.svg";
+import { GlobalStyles } from "./GlobalStyle";
+import TextField from "@mui/material/TextField";
+import { Outlet, useLocation, useNavigate } from "react-router-dom"; // Import Outlet
+import {
+  expandItem,
+  activateItem,
+  triggerPageChange,
+} from "../redux/reducer/sidebardata";
+import { useDispatch } from "react-redux";
 
-const   Layout = ({sidebarList,pageTitle,childPage}) => {
+const Layout = ({ sidebarList, pageTitle, childrenPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState(true); // State for desktop sidebar
-  const [themeMode, setThemeMode] = useState('light');
-  const [openChildMenu, setOpenChildMenu] = useState(false);
+  const [themeMode, setThemeMode] = useState("light");
+  const [openchildrenMenu, setOpenchildrenMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [themeMenu, setThemeMenu] = useState(null);
   const [sidebarItems, setSidebarItems] = useState(sidebarList);
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
-  const location=useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
   console.log(sidebarItems);
-
-  useEffect(()=>{
-    dispatch(triggerPageChange(location))
-  },[location])
-
   useEffect(() => {
     setSidebarItems(sidebarList);
-  },[sidebarList])
+  }, [sidebarList]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'basic';
+    dispatch(triggerPageChange(location));
+  }, [location]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "basic";
     setThemeMode(savedTheme);
   }, []);
 
-  let theme = useMemo(
-    () => {
-        switch(themeMode){
-            case 'basic':
-                return createTheme(basicTheme);
-            case 'dark':
-                return createTheme(darkTheme);
-            case 'light':
-                return createTheme(lightTheme);
-            case 'custom':
-                return createTheme(customTheme);
-            case 'blue light':
-                return createTheme(blueLightTheme);
-            case 'blue dark':
-                return createTheme(blueDarkTheme);
-            case 'green light':
-                return createTheme(greenLightTheme);
-            case 'green dark':
-                return createTheme(greenDarkTheme);
-            case 'red light':
-                return createTheme(redLightTheme);
-            case 'red dark':
-                return createTheme(redDarkTheme);
-            case 'orange light':
-                return createTheme(orangeLightTheme);
-            case 'orange dark':
-                return createTheme(orangeDarkTheme);
-            default:
-                return createTheme(lightTheme);
-        }
-    },
-    [themeMode]
-  );
+  let theme = useMemo(() => {
+    switch (themeMode) {
+      case "basic":
+        return createTheme(basicTheme);
+      case "dark":
+        return createTheme(darkTheme);
+      case "light":
+        return createTheme(lightTheme);
+      case "custom":
+        return createTheme(customTheme);
+      case "blue light":
+        return createTheme(blueLightTheme);
+      case "blue dark":
+        return createTheme(blueDarkTheme);
+      case "green light":
+        return createTheme(greenLightTheme);
+      case "green dark":
+        return createTheme(greenDarkTheme);
+      case "red light":
+        return createTheme(redLightTheme);
+      case "red dark":
+        return createTheme(redDarkTheme);
+      case "orange light":
+        return createTheme(orangeLightTheme);
+      case "orange dark":
+        return createTheme(orangeDarkTheme);
+      default:
+        return createTheme(lightTheme);
+    }
+  }, [themeMode]);
 
   const handleDrawerToggle = () => {
     if (window.innerWidth >= 960) {
       setDesktopOpen(!desktopOpen); // Toggle desktop sidebar only when in desktop view
-    }
-    else{
+    } else {
       setMobileOpen(!mobileOpen);
     }
   };
 
   const toggleTheme = () => {
-    const newTheme = themeMode === 'light' ? 'dark' : 'light';
+    const newTheme = themeMode === "light" ? "dark" : "light";
     setThemeMode(newTheme);
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
-  const saveTheme=(themeI)=>{
+  const saveTheme = (themeI) => {
     setThemeMode(themeI.name.toLowerCase());
-    localStorage.setItem('theme', themeI.name.toLowerCase());
-  }
+    localStorage.setItem("theme", themeI.name.toLowerCase());
+  };
 
-  const handleChildMenuToggle = () => {
-    setOpenChildMenu(!openChildMenu);
+  const handlechildrenMenuToggle = () => {
+    setOpenchildrenMenu(!openchildrenMenu);
   };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleThemeMenuOpen= (event) => {
+  const handleThemeMenuOpen = (event) => {
     setThemeMenu(event.currentTarget);
-  }
+  };
 
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
@@ -113,119 +180,147 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/auth');
+    localStorage.removeItem("token");
+    navigate("/auth");
     // Handle logout action
   };
 
   const drawerWidth = 280;
-  const handleSidebarMenuClick=(sidebarItem,index)=>{
-    // if(sidebarItem.children && sidebarItem.children.length>0){
-    //   // dispatch(expandItem({id:sidebarItems.id}));
-    //   if(sidebarItem.expanded){
-    //       sidebarItem.expanded=true;
-    //   }
-    //   sidebarItem.expanded = !sidebarItem.expanded;
-    //   sidebarItems[index]=sidebarItem;
-    //   setSidebarItems([...sidebarItems])
-    // }
-    // else{
-    //   // dispatch(activateItem({item:sidebarItems}))
-    //   navigate(sidebarItems.link);
-    // }
-    console.log("sidebar menu click");
-    navigate ('/Home');
-    navigate ('/products');
+  const handleSidebarMenuClick = (sidebarItem, index) => {
+    if (sidebarItem.children && sidebarItem.children.length > 0) {
+      if (sidebarItem.expanded) {
+        sidebarItem.expanded = true;
+      }
+      //dispatch(expandItem({id:sidebarItem.id}));
+      sidebarItem.expanded = !sidebarItem.expanded;
+      sidebarItem[index] = sidebarItem;
+      setSidebarItems([...sidebarItems]);
+    } else {
+      // dispatch(activateItem({item:sidebarItem}))
+      navigate(sidebarItem.link);
+    }
+  //   navigate('/Home');
+  //  navigate('/Products')
   };
-  
 
   const getIcon = (icon) => {
     switch (icon) {
-      case 'home':
-        return <Home />;
-      case 'Add':
-        return <AddCircleOutlineOutlined />;
-      case 'Dashboard':
+      case "Dashboard":
         return <DashboardOutlined />;
-      case 'Store':
+      case "home":
+        return <Home />;
+      case "Add":
+        return <AddCircleOutlineOutlined />;
+
+      case "Store":
         return <ShoppingCartOutlined />;
-      case 'Retail':
+      case "Retail":
         return <StorefrontOutlined />;
-      case 'AccountCircle':
+      case "AccountCircle":
         return <GroupOutlined />;
-      case 'settings':
+      case "settings":
         return <SettingsIcon />;
-      case 'Inventory':
+      case "Inventory":
         return <InventoryOutlined />;
-      case 'Category':
+      case "Category":
         return <Category />;
-      case 'Redeem':
+      case "Redeem":
         return <ShoppingBasketRounded />;
-      case 'Receipt':
+      case "Receipt":
         return <ReceiptOutlined />;
-      case 'Warehouse':
+      case "Warehouse":
         return <WarehouseOutlined />;
-      case 'exams':
+      case "exams":
         return <AccountCircle />;
-      case 'results':
+      case "results":
         return <AccountCircle />;
-      case 'attendance':
+      case "attendance":
         return <AccountCircle />;
-      case 'ecommerce':
+      case "ecommerce":
         return <BusinessIcon />;
       default:
         return <AccountCircle />;
     }
-  }
+  };
 
   const drawer = (
     <div
       style={{
-        borderRight: '1px solid ' + theme.palette.background.paper,
+        borderRight: "1px solid " + theme.palette.background.paper,
         backgroundColor: theme.palette.background.paper,
-        height: '100%',
-        overflowY: 'auto',
-        padding: '16px'
+        height: "100%",
+        overflowY: "auto",
+        padding: "16px",
       }}
-      className='sidebar'
+      className="sidebar"
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-        <img src={logo} alt="logo" className='logo' style={{ marginRight: '16px',width:'100%' }} />
-        
+      <Box sx={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
+        <img
+          src={logo}
+          alt="logo"
+          className="logo"
+          style={{ marginRight: "16px", width: "100%" }}
+        />
       </Box>
-      <List sx={{ '& .MuiListItem-root': { transition: 'background-color 0.3s' } }}>
-        {sidebarItems.map((sidebarItem,index) => (
-            <>
-            <ListItem key={index} onClick={()=>handleSidebarMenuClick(sidebarItem,index)} sx={{ '&.Mui-selected': { backgroundColor: theme.palette.action.selected }, '&:hover': { backgroundColor: theme.palette.primary.light,borderRadius:'10px' } }} className={(sidebarItem?.active && sidebarItem.submenus.length===0)?"active-sidebar":""}>
-                <ListItemIcon>
-                    {getIcon(sidebarItem.icon)}
-                </ListItemIcon>
-                <ListItemText primary={sidebarItem.name} />
-                {"children" in sidebarItem && sidebarItem.children.length>0?
-                    <>
-                        {(sidebarItem?.expanded || sidebarItem?.active) ? <ExpandLess /> : <ExpandMore />}
-                    </>
-                :""}
+      <List
+        sx={{ "& .MuiListItem-root": { transition: "background-color 0.3s" } }}
+      >
+        {sidebarItems.map((sidebarItem, index) => (
+          <>
+            <ListItem
+              key={index}
+              onClick={() => handleSidebarMenuClick(sidebarItem, index)}
+              sx={{
+                "&.Mui-selected": {
+                  backgroundColor: theme.palette.action.selected,
+                },
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.light,
+                  borderRadius: "10px",
+                },
+              }}
+              className={
+                sidebarItem?.active && sidebarItem.submenus.length === 0
+                  ? "active-sidebar"
+                  : ""
+              }
+            >
+              <ListItemIcon>{getIcon(sidebarItem.icon)}</ListItemIcon>
+              <ListItemText primary={sidebarItem.name} />
+              {"children" in sidebarItem && sidebarItem.children.length > 0 ? (
+                <>
+                  {sidebarItem?.expanded || sidebarItem?.active ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )}
+                </>
+              ) : (
+                ""
+              )}
             </ListItem>
-            {"children" in sidebarItem && sidebarItem.children.length>0?
-                <Collapse in={sidebarItem?.expanded || sidebarItem?.active} timeout="auto" unmountOnExit>
+            {"children" in sidebarItem && sidebarItem.children.length > 0 ? (
+              <Collapse
+                in={sidebarItem?.expanded || sidebarItem?.active}
+                timeout="auto"
+                unmountOnExit
+              >
                 <List component="div" disablePadding>
-              {sidebarItem.children.map(child => (
-                            <ListItem button sx={{ pl: 4 }} key={child.name} >
-                                <ListItemIcon>
-                                    {/* {getIcon(children.icon)} */}
-                                    <AlternateEmailIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={child.name} />
-                            </ListItem>
-                ))}
+                  {sidebarItem.children.map((child) => (
+                    <ListItem button sx={{ pl: 4 }} key={child.name}>
+                      <ListItemIcon>
+                        <AlternateEmailIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={child.name} />
+                    </ListItem>
+                  ))}
                 </List>
-                </Collapse>        
-
-                :""}
-            </>
+              </Collapse>
+            ) : (
+              ""
+            )}
+          </>
         ))}
-
       </List>
     </div>
   );
@@ -239,13 +334,13 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
       PaperProps={{
         elevation: 0,
         sx: {
-          overflow: 'visible',
-          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          overflow: "visible",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           mt: 1.5,
         },
       }}
-      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem>
         <ListItemIcon>
@@ -275,68 +370,68 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
     </Menu>
   );
 
-  const themeMenuItems=[
+  const themeMenuItems = [
     {
-        'name':'Basic',
-        'color':'rgba(159, 84, 252, 1)',
-        'theme':basicTheme
+      name: "Basic",
+      color: "rgba(159, 84, 252, 1)",
+      theme: basicTheme,
     },
     {
-        'name':'Dark',
-        'color':'rgba(17, 17, 17, 1)',
-        'theme':darkTheme
+      name: "Dark",
+      color: "rgba(17, 17, 17, 1)",
+      theme: darkTheme,
     },
     {
-        'name':'Light',
-        'color':'rgba(159, 84, 252, 1)',
-        'theme':lightTheme
+      name: "Light",
+      color: "rgba(159, 84, 252, 1)",
+      theme: lightTheme,
     },
     {
-        'name':'Custom',
-        'color':'rgba(159, 84, 252, 1)',
-        'theme':customTheme
+      name: "Custom",
+      color: "rgba(159, 84, 252, 1)",
+      theme: customTheme,
     },
     {
-        'name':'Blue Light',
-        'color':'rgba(135, 206, 250, 1)',
-        'theme':blueLightTheme
+      name: "Blue Light",
+      color: "rgba(135, 206, 250, 1)",
+      theme: blueLightTheme,
     },
     {
-        'name':'Blue Dark',
-        'color':'rgba(0, 0, 255, 1)',
-        'theme':blueDarkTheme
+      name: "Blue Dark",
+      color: "rgba(0, 0, 255, 1)",
+      theme: blueDarkTheme,
     },
     {
-        'name':'Green Light',
-        'color':'rgba(144, 238, 144, 1)',
-        'theme':greenLightTheme
+      name: "Green Light",
+      color: "rgba(144, 238, 144, 1)",
+      theme: greenLightTheme,
     },
     {
-        'name':'Green Dark',
-        'color':'rgba(0, 100, 0, 1)',
-        'theme':greenDarkTheme
+      name: "Green Dark",
+      color: "rgba(0, 100, 0, 1)",
+      theme: greenDarkTheme,
     },
     {
-        'name':'Red Light',
-        'color':'rgba(255, 192, 203, 1)',
-        'theme':redLightTheme
+      name: "Red Light",
+      color: "rgba(255, 192, 203, 1)",
+      theme: redLightTheme,
     },
     {
-        'name':'Red Dark',
-        'color':'rgba(139, 0, 0, 1)',
-        'theme':redDarkTheme
+      name: "Red Dark",
+      color: "rgba(139, 0, 0, 1)",
+      theme: redDarkTheme,
     },
     {
-        'name':'Orange Light',
-        'color':'rgba(255, 222, 173, 1)',
-        'theme':orangeLightTheme
+      name: "Orange Light",
+      color: "rgba(255, 222, 173, 1)",
+      theme: orangeLightTheme,
     },
     {
-        'name':'Orange Dark',
-        'color':'rgba(255, 140, 0, 1)',
-        'theme':orangeDarkTheme
-    }
-  ]
+      name: "Orange Dark",
+      color: "rgba(255, 140, 0, 1)",
+      theme: orangeDarkTheme,
+    },
+  ];
 
   const themeMenuUI = (
     <Menu
@@ -347,33 +442,30 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
       PaperProps={{
         elevation: 0,
         sx: {
-          overflow: 'visible',
-          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          overflow: "visible",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           mt: 1.5,
         },
       }}
-      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-        <MenuItem>
-            <ListItemIcon>
-                
-                        <SettingsIcon/> 
-                    </ListItemIcon>
-                    <Typography variant="inherit">Theme Setting</Typography>
+      <MenuItem>
+        <ListItemIcon>
+          <SettingsIcon />
+        </ListItemIcon>
+        <Typography variant="inherit">Theme Setting</Typography>
+      </MenuItem>
+      <Divider />
 
-            </MenuItem>
-        <Divider />
-
-        {themeMenuItems.map(themeMenu=>(
-            <MenuItem onClick={()=>saveTheme(themeMenu)} key={themeMenu.name}>
-            <ListItemIcon>
-                <Circle sx={{color:themeMenu.color}}/>
-            </ListItemIcon>
-            <Typography variant="inherit">{themeMenu.name}</Typography>
-            </MenuItem>
-        ))}
-
+      {themeMenuItems.map((themeMenu) => (
+        <MenuItem onClick={() => saveTheme(themeMenu)} key={themeMenu.name}>
+          <ListItemIcon>
+            <Circle sx={{ color: themeMenu.color }} />
+          </ListItemIcon>
+          <Typography variant="inherit">{themeMenu.name}</Typography>
+        </MenuItem>
+      ))}
     </Menu>
   );
 
@@ -381,11 +473,16 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <GlobalStyles/>
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <GlobalStyles />
+        <Box
+          sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        >
           <Box
             component="nav"
-            sx={{ width: { sm: desktopOpen ? drawerWidth : 0 }, flexShrink: { sm: 0 } }}
+            sx={{
+              width: { sm: desktopOpen ? drawerWidth : 0 },
+              flexShrink: { sm: 0 },
+            }}
             aria-label="mailbox folders"
           >
             <Drawer
@@ -396,8 +493,11 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
                 keepMounted: true,
               }}
               sx={{
-                display: { xs: 'block', sm: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                display: { xs: "block", sm: "none" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: drawerWidth,
+                },
               }}
             >
               {drawer}
@@ -406,8 +506,12 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
               variant="persistent"
               open={desktopOpen}
               sx={{
-                display: { xs: 'none', sm: 'block' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: desktopOpen ? drawerWidth : 0, transition: 'width 0.3s' },
+                display: { xs: "none", sm: "block" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: desktopOpen ? drawerWidth : 0,
+                  transition: "width 0.3s",
+                },
               }}
             >
               {drawer}
@@ -417,14 +521,23 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
             component="main"
             sx={{
               flexGrow: 1,
-              transition: 'margin-left 0.3s',
+              transition: "margin-left 0.3s",
               marginLeft: { xs: 0, sm: desktopOpen ? `${drawerWidth}px` : 0 },
-              display: 'flex',
-              flexDirection: 'column',
-              
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <AppBar position="sticky" sx={{ backgroundColor: theme.palette.background.default, backgroundImage: 'none', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: theme.palette.background.paper }} className='appbar'>
+            <AppBar
+              position="sticky"
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                backgroundImage: "none",
+                borderBottomWidth: "1px",
+                borderBottomStyle: "solid",
+                borderBottomColor: theme.palette.background.paper,
+              }}
+              className="appbar"
+            >
               <Toolbar>
                 <Hidden mdUp>
                   <IconButton
@@ -445,41 +558,41 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
                     <MenuIcon />
                   </IconButton>
                 </Hidden>
-                <Typography variant='h6' sx={{ flexGrow: 1 }}>
-                    {pageTitle || 'Dashboard'}
+                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                  {pageTitle || "Dashboard"}
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                  <IconButton
+                <IconButton
                   className="profile-icon"
-                    color="inherit"
-                    aria-label="profile"
-                    onClick={handleProfileMenuOpen}
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                  <IconButton
+                  color="inherit"
+                  aria-label="profile"
+                  onClick={handleProfileMenuOpen}
+                >
+                  <AccountCircle />
+                </IconButton>
+                <IconButton
                   className="theme-icon"
-                    color="inherit"
-                    aria-label="theme"
-                    onClick={handleThemeMenuOpen}
-                  >
-                    <AutoAwesomeTwoTone/>
-                  </IconButton>
+                  color="inherit"
+                  aria-label="theme"
+                  onClick={handleThemeMenuOpen}
+                >
+                  <AutoAwesomeTwoTone />
+                </IconButton>
               </Toolbar>
             </AppBar>
             {profileMenu}
             {themeMenuUI}
-            <section className='main-content' style={{ padding: '20px' }}>
-              {childPage?childPage:<Outlet/>}
+            <section className="main-content" style={{ padding: "20px" }}>
+              <Outlet />
             </section>
             <Box
               component="footer"
               sx={{
                 borderTop: 1,
-                borderColor: 'divider',
+                borderColor: "divider",
                 py: 2,
-                textAlign: 'center',
-                mt: 'auto',
+                textAlign: "center",
+                mt: "auto",
               }}
             >
               <Typography variant="body2" color="text.secondary">
@@ -493,4 +606,4 @@ const   Layout = ({sidebarList,pageTitle,childPage}) => {
   );
 };
 
-export default React.memo(Layout);
+export default React.memo(Layout)
