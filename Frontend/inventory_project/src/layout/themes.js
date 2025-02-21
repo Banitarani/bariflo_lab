@@ -325,8 +325,8 @@ export const greenDarkTheme = createTheme({
     mode: 'dark',
     primary: {
       main: 'rgba(0, 128, 0, 1)',
-      dark: 'rgba(0, 100, 0, 1)',
-      light: 'rgba(0, 128, 0, 1)',
+      dark: 'rgb(2, 54, 2)',
+      light: 'rgb(207, 231, 207)',
     },
     secondary: {
       main: 'rgba(240, 255, 240, 1)',

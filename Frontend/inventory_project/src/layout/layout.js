@@ -1,79 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useMemo, useEffect } from "react";
-import {
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
-  Divider,
-  Card,
-  CardContent,
-  Fab,
-  Box,
-  Hidden,
-  InputBase,
-  Avatar,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  BottomNavigation,
-  BottomNavigationAction,
-  submenus,
-} from "@mui/material";
-import {
-  LightMode,
-  DarkMode,
-  Menu as MenuIcon,
-  ExpandLess,
-  ExpandMore,
-  Search as SearchIcon,
-  AccountCircle,
-  Settings as SettingsIcon,
-  Notifications as NotificationsIcon,
-  Logout,
-  Home,
-  Code as CodeIcon,
-  Public as PublicIcon,
-  Business as BusinessIcon,
-  AlternateEmail as AlternateEmailIcon,
-  AutoAwesomeTwoTone,
-  Circle,
-  AddCircleOutlineOutlined,
-  DashboardOutlined,
-  ShoppingCartOutlined,
-  StorefrontOutlined,
-  GroupOutlined,
-  InventoryOutlined,
-  CategoryOutlined,
-  Category,
-  ShoppingBasketOutlined,
-  ShoppingBasketRounded,
-  ReceiptOutlined,
-  WarehouseOutlined,
-} from "@mui/icons-material";
+import {CssBaseline, ThemeProvider,createTheme,AppBar,Toolbar,IconButton,Typography, Drawer,List,ListItem,ListItemText,Collapse,Divider,Card,CardContent,Fab,Box,Hidden,InputBase,Avatar,Menu,MenuItem,ListItemIcon,BottomNavigation,BottomNavigationAction,submenus,} from "@mui/material";
+import {LightMode,DarkMode,Menu as MenuIcon,ExpandLess,ExpandMore,Search as SearchIcon,  AccountCircle,Settings as SettingsIcon,Notifications as NotificationsIcon,Logout,Home,Code as CodeIcon,Public as PublicIcon,Business as BusinessIcon, AlternateEmail as AlternateEmailIcon,AutoAwesomeTwoTone,Circle,AddCircleOutlineOutlined,DashboardOutlined,ShoppingCartOutlined,StorefrontOutlined,GroupOutlined,InventoryOutlined,CategoryOutlined, Category,ShoppingBasketOutlined,ShoppingBasketRounded,  ReceiptOutlined, WarehouseOutlined,} from "@mui/icons-material";
 import { ThemeProvider as Emotion10ThemeProvider } from "@emotion/react";
 import "./style.scss";
-import {
-  orangeDarkTheme,
-  orangeLightTheme,
-  basicTheme,
-  darkTheme,
-  lightTheme,
-  customTheme,
-  blueLightTheme,
-  blueDarkTheme,
-  greenLightTheme,
-  greenDarkTheme,
-  redLightTheme,
-  redDarkTheme,
-} from "./themes";
+import {orangeDarkTheme,orangeLightTheme, basicTheme, darkTheme,lightTheme, customTheme, blueLightTheme,blueDarkTheme,greenLightTheme,greenDarkTheme, redLightTheme,redDarkTheme,} from "./themes";
 import logo from "../assets/logo.svg";
 import { GlobalStyles } from "./GlobalStyle";
 import TextField from "@mui/material/TextField";
@@ -280,7 +211,7 @@ const Layout = ({ sidebarList, pageTitle, childrenPage }) => {
                 },
               }}
               className={
-                sidebarItem?.active && sidebarItem.submenus.length === 0
+                sidebarItem?.active && sidebarItem.children.length === 0
                   ? "active-sidebar"
                   : ""
               }
@@ -307,15 +238,15 @@ const Layout = ({ sidebarList, pageTitle, childrenPage }) => {
               >
                 <List component="div" disablePadding>
                   {sidebarItem.children.map((child) => (
-                    <ListItem button sx={{ pl: 4 }} key={child.name}>
-                      <ListItemIcon>
+                    <ListItem button sx={{ pl: 4 }} key={child.name}   onClick={() => handleSidebarMenuClick(child, index)}>  
+                      <ListItemIcon> 
                         <AlternateEmailIcon />
                       </ListItemIcon>
                       <ListItemText primary={child.name} />
                     </ListItem>
                   ))}
                 </List>
-              </Collapse>
+              </Collapse>//this onclick function for child component side bar , by these we can se child page .
             ) : (
               ""
             )}

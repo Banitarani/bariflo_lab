@@ -4,30 +4,58 @@ import Home from "./pages/Home";
 import Layout from "./layout/layout";
 import Error404page from "./pages/Error404page";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import CreatePurchaseOrder from "./pages/PurchaseOrder/CreatePurchaseOrder";
-// import ProtectedRoute from "./utils/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
-import { Provider } from "react-redux";
-import store from "./redux/store/store";
 import Products from "./pages/Product";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
+import Allcategories from "./pages/Allcategories";
+import Addcategories from "./pages/Addcategories";
+import PurchaseOrder from "./pages/PurchaseOrder";
+import SalesOrder from "./pages/SalesOrder";
+import ManageSupplier from "./pages/ManageSupplier";
+import CreateSupplier from "./pages/CreateSupplier";
+import CreateCustomer from "./pages/CreateCustomer";
+import ManageCustomers from "./pages/ManageCustomers";
+import Inventory from "./pages/Inventory";
+import Warehouse from "./pages/Warehouse";
+import RetailSales from "./pages/RetailSales";
 
 const sidebarItems = [
   { name: "Home", link: "/home", icon: "home" },
-  { name: "Products", link: "/products", icon: "products" },
+  { name: "Products", link: "/products", icon: "Redeem" },
   {
     name: "Categories",
-    icon: "categories",
+    link: "categories",
+    icon: "Category",
     children: [
-      { name: "All categories", link: "/categories" },
-      { name: "Add category", link: "/categories/add" },
+      { name: "All categories", link: "/allcategories" },
+      { name: "Add category", link: "/addcategories" },
+    ], 
+  },
+  { name: "Orders", link: "/orders" ,icon:"Store",
+    
+    children:[
+      {name: "Purchase Order",link:"/PurchaseOrders"},
+      {name : "Sales Order",link:"/SalesOrders"},],
+  },
+  { name: "Users", link: "/users"},
+  {name : "Customer",link :"/customers",icon:"Receipt",
+    children:[
+      {name : "Manage Customer", link:"/ManageCustomers"},
+      {name : "Create Customer", link:"/CreateCustomers"},
     ],
   },
-  { name: "Orders", link: "/orders", icon: "orders" },
-  { name: "Users", link: "/users", icon: "users" },
+  {name: "Supplier",link:"/suppliers",icon:"Add",
+    children:[
+      {name : "Manage Supplier",link:"/ManageSuppliers"},
+      {name : "Create Supplier",link: "/CreateSuppliers"},
+    ]
+  },
+  {name : "Retail Sales",link:"/RetailSales",icon:"Retail"},
+  {name : "Inventory",link:"/inventories",icon:"Inventory"},
+  {name : "Warehouse",link: "/Warehouses",icon:"Warehouse"},
   { name: "Settings", link: "/settings", icon: "settings" },
-];
+];// here add sidebar component 
 
 // const isAuthenticated = true; // Set this to control access
 
@@ -40,11 +68,22 @@ const router = createBrowserRouter([
       { path: "Products", element: <Products /> },
       { path: "Orders", element: <Orders /> },
       {path : "Users" , element: <Users/>},
+      {path : "allcategories" , element : <Allcategories />},
+      {path : "addcategories" ,element : <Addcategories />},
+      {path: "PurchaseOrders",element: <PurchaseOrder />},
+      {path: "SalesOrders",element:<SalesOrder />},
+      {path : "ManageSuppliers" , element : <ManageSupplier/>},
+      {path : "CreateSuppliers" , element : <CreateSupplier/>},
+      {path : "CreateCustomers", element : <CreateCustomer/>},
+      {path : "ManageCustomers" , element: <ManageCustomers />},
+      {path :"Inventories", element : <Inventory/>},
+      {path : "Warehouses" , element : <Warehouse/>},
+      {path: "RetailSales" , element: <RetailSales />},
     ],
   },
   // { path: "/create/po", element: <CreatePurchaseOrder /> },
   { path: "*", element: <Error404page /> },
-]);
+]);// here we route paths for routing pages .
 
 function App() {
   return (
@@ -55,7 +94,7 @@ function App() {
         autoClose={3000}
         hideProgressBar={false}
       />
-    </>
+    </>//toastcontainer are small ,non -interface msg that pop up on the screen to give feedback to user such as "success" or "error";
   );
 }
 
